@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 class Node implements Comparable<Node> {
-    // TODO Attributs
+    // TOO Attributs
 
     // Leaf Node
     Node(char symbol, int frequency) {
