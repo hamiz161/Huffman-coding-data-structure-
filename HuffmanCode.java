@@ -42,7 +42,22 @@ class HuffmanCode {
      * @return Fréquence de chaque caractère ASCII sur 8 bits
      */
     private static int[] getCharacterFrequencies(String text) {
-        return null; // TODO À compléter
+
+        int [] tableauCharAscii = new int [128];//longeur  nombre de caractere table ascii
+
+        for (int i = 0; i < text.length() ; i++) {
+            char character = text.charAt(i);
+            int assci = (int) character;
+
+            tableauCharAscii[assci]+=1;
+        }
+        Arrays.sort(tableauCharAscii);
+        for (int i = 0; i <tableauCharAscii.length ; i++) {
+            if(tableauCharAscii[i] != 0)
+                System.out.print(tableauCharAscii[i]);
+        }
+
+        return tableauCharAscii;
     }
 
     /**
@@ -70,11 +85,15 @@ class HuffmanCode {
 
     // Ne pas modifier
     public static void main(String[] args) throws IOException {
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
         Node root = getHuffmanTree(getCharacterFrequencies(reader.readLine()));
 
+
+
         // Table
-        if (args.length == 0 || Arrays.asList(args).contains("table")) {
+        /*if (args.length == 0 || Arrays.asList(args).contains("table")) {
             System.out.println("Char Freq Code\n---- ---- ----");
             printTable(root, "");
         }
@@ -82,6 +101,6 @@ class HuffmanCode {
         // Graphe
         if (args.length == 0 || Arrays.asList(args).contains("graph")) {
             printGraph(root);
-        }
+        }*/
     }
 }
