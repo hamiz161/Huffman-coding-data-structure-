@@ -3,8 +3,8 @@
  * @author Hamza Guerabli - 20112229
  * @author Yuyin Ding  - 20125263
  *
+ *la méthode printGraph génere directement le pdf 
  *
- * méthode print() pour tester a la fin
  * */
 
 import java.io.BufferedReader;
@@ -17,6 +17,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 class Node implements Comparable<Node> {
+
     public char symbol;
     public int frequency;
     Node left;
@@ -47,7 +48,6 @@ class Node implements Comparable<Node> {
             else if (this.symbol == node.symbol)
                 return 0;
         }
-
         return 1;
     }
 
@@ -94,7 +94,6 @@ class HuffmanCode {
                 char indexChar = (char) i;
 
                 Node node = new Node(indexChar, frequency);
-
                 queue.add(node);
             }
 
@@ -142,14 +141,18 @@ class HuffmanCode {
     /**
      * @param node Nœud de départ
      */
+
     private static void printGraph(Node node) {
         char quote = '"';
         System.out.println("graph {");
         System.out.println("node [style=rounded]");
         Queue<Node> nodeAVisiter = new LinkedList<>();
+
         if (node != null)
             nodeAVisiter.add(node);
+
         while (!nodeAVisiter.isEmpty()) {
+
             Node nodeCurren = nodeAVisiter.poll();
 
             if (nodeCurren.isLeaf()) {
@@ -157,13 +160,17 @@ class HuffmanCode {
                         + nodeCurren.frequency + "}}" + quote + ", shape=record]");
 
             } else {
+
                 System.out.println(
                         nodeCurren.hashCode() + " [label=" + nodeCurren.frequency + ", shape=rectangle, width=.5]");
+
                 if (nodeCurren.left != null) {
+
                     System.out.println(nodeCurren.hashCode() + " -- " + nodeCurren.left.hashCode() + " [label=0]");
                     nodeAVisiter.add(nodeCurren.left);
                 }
                 if (nodeCurren.right != null) {
+
                     System.out.println(nodeCurren.hashCode() + " -- " + nodeCurren.right.hashCode() + " [label=1]");
                     nodeAVisiter.add(nodeCurren.right);
                 }
