@@ -1,7 +1,11 @@
+
 /**
- * @author Prénom Nom - Matricule
- * @author Prénom Nom - Matricule
- */
+ * @author Hamza Guerabli - 20112229
+ * @author Yuyin Ding  - 20125263
+ *
+ *
+ * méthode print() pour tester a la fin
+ * */
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,16 +17,15 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 class Node implements Comparable<Node> {
-    public   char symbol;
+    public char symbol;
     public int frequency;
     Node left;
     Node right;
 
     Node(char symbol, int frequency) {
         this.symbol = symbol;
-        this.frequency = frequency ;
+        this.frequency = frequency;
     }
-
 
     // Internal Node
     Node(Node left, Node right) {
@@ -31,15 +34,15 @@ class Node implements Comparable<Node> {
     }
 
     boolean isLeaf() {
-         return (this.left == null) && (this.right == null);
+        return (this.left == null) && (this.right == null);
     }
 
     @Override
     public int compareTo(Node node) {
-        if(this.frequency < node.frequency)
+        if (this.frequency < node.frequency)
             return -1;
-        if(this.frequency == node.frequency ){
-            if(this.symbol < node.symbol)
+        if (this.frequency == node.frequency) {
+            if (this.symbol < node.symbol)
                 return -1;
             else if (this.symbol == node.symbol)
                 return 0;
@@ -50,27 +53,28 @@ class Node implements Comparable<Node> {
 
     @Override
     public String toString() {
-        String resultas = "";
-        resultas += this.symbol + "    "  + this.frequency;
+        String resultas = "   ";
+        resultas += this.symbol + "    " + this.frequency;
         return resultas;
     }
 }
 
 class HuffmanCode {
-   static  Queue<Node> queue1 = new PriorityQueue<Node>() ;
+    static Queue<Node> queue1 = new PriorityQueue<Node>();
+
     /**
      * @param text Texte à analyser
      * @return Fréquence de chaque caractère ASCII sur 8 bits
      */
     private static int[] getCharacterFrequencies(String text) {
 
-        int [] tableauCharAscii = new int [128];//longeur  nombre de caractere table ascii
+        int[] tableauCharAscii = new int[128];// longeur nombre de caractere table ascii
 
-        for (int i = 0; i < text.length() ; i++) {
+        for (int i = 0; i < text.length(); i++) {
             char character = text.charAt(i);
             int assci = (int) character;
 
-            tableauCharAscii[assci]+=1;
+            tableauCharAscii[assci] += 1;
         }
 
         return tableauCharAscii;
@@ -81,26 +85,26 @@ class HuffmanCode {
      * @return Nœud racine de l'arbre
      */
     private static Node getHuffmanTree(int[] charFreq) {
-        PriorityQueue<Node> queue = new PriorityQueue<Node>() ;
+        PriorityQueue<Node> queue = new PriorityQueue<Node>();
 
-        for (int i = 0; i < charFreq.length ; i++) {
-            if(charFreq[i] != 0) {
+        for (int i = 0; i < charFreq.length; i++) {
+            if (charFreq[i] != 0) {
 
                 int frequency = charFreq[i];
                 char indexChar = (char) i;
 
-                Node node = new Node(indexChar,frequency);
+                Node node = new Node(indexChar, frequency);
 
                 queue.add(node);
             }
 
         }
 
-        Node root = new Node(null,null);
+        Node root = new Node(null, null);
 
-        while(queue.size() > 1 ){
+        while (queue.size() > 1) {
 
-            Node rootCuur = new Node(null ,null);
+            Node rootCuur = new Node(null, null);
             Node n1 = queue.peek();
             queue.poll();
 
@@ -124,14 +128,14 @@ class HuffmanCode {
      * @param code Code Huffman
      */
     private static void printTable(Node node, String code) {
-       if (node == null)
+        if (node == null)
             return;
-       if(!node.isLeaf()) {
-           printTable(node.left, code + "0");
-           printTable(node.right, code + "1");
-       }
-       if(node.symbol != 0)
-       System.out.println(node.toString()+ "    " + code);
+        if (!node.isLeaf()) {
+            printTable(node.left, code + "0");
+            printTable(node.right, code + "1");
+        }
+        if (node.symbol != 0)
+            System.out.println(node.toString() + " " + code);
 
     }
 
@@ -139,42 +143,33 @@ class HuffmanCode {
      * @param node Nœud de départ
      */
     private static void printGraph(Node node) {
-
-        Queue<Node> nodeAVisiter = new LinkedList<>() ;
-        if(node != null)
+        char quote = '"';
+        System.out.println("graph {");
+        System.out.println("node [style=rounded]");
+        Queue<Node> nodeAVisiter = new LinkedList<>();
+        if (node != null)
             nodeAVisiter.add(node);
-        while(!nodeAVisiter.isEmpty()){
+        while (!nodeAVisiter.isEmpty()) {
             Node nodeCurren = nodeAVisiter.poll();
 
-            //if(!nodeCurren.isLeaf()) {
-                System.out.println(nodeCurren.hashCode() + " [Label=" + nodeCurren.frequency + ", shape=rectangle, width=.5]");
+            if (nodeCurren.isLeaf()) {
+                System.out.println(nodeCurren.hashCode() + " [label=" + quote + "{{'" + nodeCurren.symbol + "'|"
+                        + nodeCurren.frequency + "}}" + quote + ", shape=record]");
 
-
-           // }
-            if(nodeCurren.left != null){
-                System.out.println(nodeCurren.hashCode()+" -- "+nodeCurren.left.hashCode()+" [label=0]");
-                nodeAVisiter.add(nodeCurren.left);
+            } else {
+                System.out.println(
+                        nodeCurren.hashCode() + " [label=" + nodeCurren.frequency + ", shape=rectangle, width=.5]");
+                if (nodeCurren.left != null) {
+                    System.out.println(nodeCurren.hashCode() + " -- " + nodeCurren.left.hashCode() + " [label=0]");
+                    nodeAVisiter.add(nodeCurren.left);
                 }
-            if(nodeCurren.right != null){
-                System.out.println(nodeCurren.hashCode()+" -- "+nodeCurren.right.hashCode()+" [label=1]");
-                nodeAVisiter.add(nodeCurren.right);
+                if (nodeCurren.right != null) {
+                    System.out.println(nodeCurren.hashCode() + " -- " + nodeCurren.right.hashCode() + " [label=1]");
+                    nodeAVisiter.add(nodeCurren.right);
                 }
-        }
-       /* if(node == null)
-            return;
-
-        System.out.println(node.hashCode()+"  " +node.frequency);
-
-        if(!node.isLeaf()) {
-            if (node.left != null){
-                 printGraph(node.left);
-            }
-            if(node.right != null) {
-                printGraph(node.right);
             }
         }
-          System.out.println(node.hashCode()+"  " +node.frequency+node.symbol);*/
-
+        System.out.println("}");
 
     }
 
@@ -188,10 +183,10 @@ class HuffmanCode {
         if (args.length == 0 || Arrays.asList(args).contains("table")) {
             System.out.println("Char Freq Code\n---- ---- ----");
             printTable(root, "");
-       }
+        }
 
         // Graphe
-      if (args.length == 0 || Arrays.asList(args).contains("graph")) {
+        if (args.length == 0 || Arrays.asList(args).contains("graph")) {
             printGraph(root);
         }
     }
