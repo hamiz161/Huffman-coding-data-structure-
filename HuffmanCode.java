@@ -100,6 +100,10 @@ class HuffmanCode {
         }
 
         Node root = new Node(null, null);
+        
+        // si on a un string avec un seul char avec plusieur réptition
+        if(queue.size()  == 1 )
+            root = queue.peek();
 
         while (queue.size() > 1) {
 
@@ -117,9 +121,11 @@ class HuffmanCode {
 
             root = rootCuur;
             queue.add(rootCuur);
+           
 
         }
         return root;
+    
     }
 
     /**
