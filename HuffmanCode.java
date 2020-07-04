@@ -121,11 +121,9 @@ class HuffmanCode {
 
             root = rootCuur;
             queue.add(rootCuur);
-           
-
         }
+
         return root;
-    
     }
 
     /**
